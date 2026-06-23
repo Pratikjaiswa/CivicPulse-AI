@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics - CivicPulse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">CivicPulse AI</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/about">About us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</nav>
+
+<div class="dashboard-container">
+    <h1>Analytics Dashboard</h1>
+    <p class="subtitle">Visual insights from civic complaints stored in MySQL.</p>
+
+    <div class="chart-grid">
+
+        <div class="chart-card">
+            <h3>Top Problem Areas</h3>
+            <div class="chart-container"><canvas id="areaChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+            <h3>Category-wise Complaints</h3>
+            <div class="chart-container"><canvas id="categoryChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+            <h3>Status Distribution</h3>
+            <div class="chart-container"><canvas id="statusChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+            <h3>Priority Distribution</h3>
+            <div class="chart-container"><canvas id="priorityChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+            <h3>Department-wise Complaints</h3>
+            <div class="chart-container"><canvas id="departmentChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+            <h3>Officer-wise Complaints</h3>
+            <div class="chart-container"><canvas id="officerChart"></canvas></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const commonOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+};
+
+const categoryLabels = {{ category_labels | tojson }};
+const categoryCounts = {{ category_counts | tojson }};
+
+const statusLabels = {{ status_labels | tojson }};
+const statusCounts = {{ status_counts | tojson }};
+
+const priorityLabels = {{ priority_labels | tojson }};
+const priorityCounts = {{ priority_counts | tojson }};
+
+const areaLabels = {{ area_labels | tojson }};
+const areaCounts = {{ area_counts | tojson }};
+
+const departmentLabels = {{ department_labels | tojson }};
+const departmentCounts = {{ department_counts | tojson }};
+
+const officerLabels = {{ officer_labels | tojson }};
+const officerCounts = {{ officer_counts | tojson }};
+
+new Chart(document.getElementById("areaChart"), {
+    type: "bar",
+    data: { labels: areaLabels, datasets: [{ label: "Complaints", data: areaCounts }] },
+    options: commonOptions
+});
+
+new Chart(document.getElementById("categoryChart"), {
+    type: "bar",
+    data: { labels: categoryLabels, datasets: [{ label: "Complaints", data: categoryCounts }] },
+    options: commonOptions
+});
+
+new Chart(document.getElementById("statusChart"), {
+    type: "doughnut",
+    data: { labels: statusLabels, datasets: [{ label: "Status", data: statusCounts }] },
+    options: commonOptions
+});
+
+new Chart(document.getElementById("priorityChart"), {
+    type: "pie",
+    data: { labels: priorityLabels, datasets: [{ label: "Priority", data: priorityCounts }] },
+    options: commonOptions
+});
+
+new Chart(document.getElementById("departmentChart"), {
+    type: "bar",
+    data: { labels: departmentLabels, datasets: [{ label: "Complaints", data: departmentCounts }] },
+    options: commonOptions
+});
+
+new Chart(document.getElementById("officerChart"), {
+    type: "bar",
+    data: { labels: officerLabels, datasets: [{ label: "Complaints", data: officerCounts }] },
+    options: commonOptions
+});
+</script>
+
+</body>
+</html>

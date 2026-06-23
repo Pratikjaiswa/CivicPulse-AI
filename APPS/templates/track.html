@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Complaint - CivicPulse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">CivicPulse AI</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/about">About us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</div>
+
+<section class="form-section">
+    <div class="form-card">
+        <span class="tag">Complaint Tracking</span>
+        <h2>Track Your Complaint</h2>
+        <p>Enter your complaint number to check status, department, officer, and admin updates.</p>
+
+        <form method="POST">
+            <input type="number" name="complaint_id" placeholder="Enter Complaint Number e.g. 35" required>
+            <button type="submit">Track Complaint</button>
+        </form>
+
+        {% if complaint %}
+        <div class="tracking-card">
+            <h3>CPULSE-MUM-2026-{{ "%04d"|format(complaint[0]) }}</h3>
+
+            <div class="status-timeline">
+                <div class="timeline-step active">
+                    <span>✓</span>
+                    <p>Submitted</p>
+                </div>
+
+                <div class="timeline-step active">
+                    <span>✓</span>
+                    <p>Department Assigned</p>
+                </div>
+
+                <div class="timeline-step active">
+                    <span>✓</span>
+                    <p>Officer Assigned</p>
+                </div>
+
+                <div class="timeline-step {% if complaint[6] == 'In Progress' or complaint[6] == 'Resolved' %}active{% endif %}">
+                    <span>✓</span>
+                    <p>In Progress</p>
+                </div>
+
+                <div class="timeline-step {% if complaint[6] == 'Resolved' %}active{% endif %}">
+                    <span>✓</span>
+                    <p>Resolved</p>
+                </div>
+            </div>
+
+            <p><strong>Name:</strong> {{ complaint[1] }}</p>
+            <p><strong>Area:</strong> {{ complaint[2] }}</p>
+            <p><strong>Complaint:</strong> {{ complaint[3] }}</p>
+            <p><strong>Category:</strong> {{ complaint[4] }}</p>
+            <p><strong>Priority:</strong> {{ complaint[5] }}</p>
+            <p><strong>Status:</strong> {{ complaint[6] }}</p>
+            <p><strong>Department:</strong> {{ complaint[7] }}</p>
+            <p><strong>Officer:</strong> {{ complaint[8] }}</p>
+
+            <p><strong>Admin Remark:</strong>
+                {% if complaint[9] %}
+                    {{ complaint[9] }}
+                {% else %}
+                    No update from admin yet.
+                {% endif %}
+            </p>
+
+            <p><strong>Submitted On:</strong> {{ complaint[10].strftime('%d %b %Y, %I:%M %p') }}</p>
+
+            <p><strong>Resolved On:</strong>
+                {% if complaint[11] %}
+                    {{ complaint[11] }}
+                {% else %}
+                    Not Resolved Yet
+                {% endif %}
+            </p>
+
+            {% if complaint[12] %}
+                <a href="/uploads/{{ complaint[12] }}" target="_blank" class="primary-btn">View Evidence</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if not_found %}
+            <p class="error-text">No complaint found with this ID.</p>
+        {% endif %}
+    </div>
+</section>
+
+</body>
+</html>

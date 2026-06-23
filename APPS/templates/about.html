@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About CivicPulse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">CivicPulse AI</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</nav>
+
+<section class="about-page">
+
+    <div class="about-header">
+        <span class="tag">About the Project</span>
+        <h1>Smart Civic Complaint Intelligence Platform</h1>
+        <p>
+            CivicPulse AI is an end-to-end web application that uses Machine Learning to classify civic complaints,
+            store them in MySQL, assign departments and officers, track complaint progress, and generate analytics.
+        </p>
+    </div>
+
+    <div class="about-grid">
+
+        <div class="about-card">
+            <h3>AI Classification</h3>
+            <p>Predicts complaint category automatically from user-submitted text.</p>
+        </div>
+
+        <div class="about-card">
+            <h3>Complaint Tracking</h3>
+            <p>Allows users to track complaint status, officer assignment, and admin remarks.</p>
+        </div>
+
+        <div class="about-card">
+            <h3>Admin Workflow</h3>
+            <p>Admins can manage priority, status, department, officer, and resolution updates.</p>
+        </div>
+
+        <div class="about-card">
+            <h3>Analytics Dashboard</h3>
+            <p>Visualizes complaint trends, status distribution, workload, and key insights.</p>
+        </div>
+
+    </div>
+
+    <div class="about-stack">
+        <h3>Technology Stack</h3>
+        <p>Developed using Python, Flask, MySQL, Machine Learning and Chart.js.</p>
+    </div>
+
+</section>
+
+</body>
+</html>

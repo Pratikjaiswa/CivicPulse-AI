@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complaint Details - CivicPulse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">CivicPulse AI</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/about">About us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</nav>
+
+<section class="form-section">
+    <div class="form-card">
+        <span class="tag">Complaint Tracking Record</span>
+
+        <h2>CPULSE-MUM-2026-{{ "%04d"|format(complaint[0]) }}</h2>
+
+        <p><strong>Name:</strong> {{ complaint[1] }}</p>
+        <p><strong>Phone:</strong> {{ complaint[2] }}</p>
+        <p><strong>Email:</strong> {{ complaint[3] }}</p>
+        <p><strong>Area:</strong> {{ complaint[4] }}</p>
+        <p><strong>Complaint:</strong> {{ complaint[5] }}</p>
+        <p><strong>AI Category:</strong> {{ complaint[6] }}</p>
+        <p><strong>Priority:</strong> {{ complaint[7] }}</p>
+        <p><strong>Status:</strong> {{ complaint[8] }}</p>
+
+        <p><strong>Created At:</strong>
+            {{ complaint[9].strftime('%d %b %Y, %I:%M %p') }}
+        </p>
+
+
+        <p><strong>Assigned Department:</strong> {{ complaint[11] }}</p>
+        <p><strong>Assigned Officer:</strong> {{ complaint[12] }}</p>
+
+        <p><strong>Admin Remark:</strong>
+            {% if complaint[13] %}
+                {{ complaint[13] }}
+            {% else %}
+                No admin remark yet.
+            {% endif %}
+        </p>
+
+        <p><strong>Resolved On:</strong>
+            {% if complaint[14] %}
+                {{ complaint[14].strftime('%d %b %Y, %I:%M %p') }}
+            {% else %}
+                Not resolved yet.
+            {% endif %}
+        </p>
+
+        {% if complaint[10] %}
+            <h3>Evidence Preview</h3>
+
+            {% if complaint[10].lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
+                <img src="/uploads/{{ complaint[10] }}" class="evidence-preview">
+            {% elif complaint[10].lower().endswith(('.mp4', '.mov', '.avi', '.webm')) %}
+                <video controls class="evidence-preview">
+                    <source src="/uploads/{{ complaint[10] }}">
+                    Your browser does not support video playback.
+                </video>
+            {% else %}
+                <a href="/uploads/{{ complaint[10] }}" target="_blank" class="primary-btn">
+                    View Evidence
+                </a>
+            {% endif %}
+        {% endif %}
+
+        <br><br>
+        <a href="/dashboard" class="primary-btn">Back to Dashboard</a>
+    </div>
+</section>
+
+</body>
+</html>

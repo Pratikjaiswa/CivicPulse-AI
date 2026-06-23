@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CivicPulse AI Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">CivicPulse AI</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</div>
+
+<div class="dashboard-container">
+
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">Monitor submitted civic complaints and update their resolution status.</p>
+
+    <div class="stats-grid">
+        <div class="stat-card"><span>Total Complaints</span><h2>{{ total }}</h2></div>
+        <div class="stat-card"><span>Pending</span><h2>{{ pending }}</h2></div>
+        <div class="stat-card"><span>In Progress</span><h2>{{ in_progress }}</h2></div>
+        <div class="stat-card"><span>Resolved</span><h2>{{ resolved }}</h2></div>
+        <div class="stat-card"><span>High Priority</span><h2>{{ high_priority }}</h2></div>
+    </div>
+
+    <form method="GET" action="/dashboard" class="filter-form">
+        <input type="text" name="search" placeholder="Search by Complaint ID, Name, Area or Complaint" value="{{ search }}">
+
+        <select name="status">
+            <option value="">All Status</option>
+            <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="In Progress" {% if status_filter == "In Progress" %}selected{% endif %}>In Progress</option>
+            <option value="Resolved" {% if status_filter == "Resolved" %}selected{% endif %}>Resolved</option>
+        </select>
+
+<select name="category">
+    <option value="">All Categories</option>
+    <option value="Water Issue" {% if category_filter == "Water Issue" %}selected{% endif %}>Water Issue</option>
+    <option value="Road Issue" {% if category_filter == "Road Issue" %}selected{% endif %}>Road Issue</option>
+    <option value="Garbage" {% if category_filter == "Garbage" %}selected{% endif %}>Garbage</option>
+    <option value="Traffic" {% if category_filter == "Traffic" %}selected{% endif %}>Traffic</option>
+    <option value="Street Light" {% if category_filter == "Street Light" %}selected{% endif %}>Street Light</option>
+    <option value="Drainage" {% if category_filter == "Drainage" %}selected{% endif %}>Drainage</option>
+    <option value="Electricity" {% if category_filter == "Electricity" %}selected{% endif %}>Electricity</option>
+    <option value="Public Safety" {% if category_filter == "Public Safety" %}selected{% endif %}>Public Safety</option>
+    <option value="Noise Complaint" {% if category_filter == "Noise Complaint" %}selected{% endif %}>Noise Complaint</option>
+    <option value="Illegal Parking" {% if category_filter == "Illegal Parking" %}selected{% endif %}>Illegal Parking</option>
+</select>
+
+        <button type="submit">Apply Filter</button>
+        <a href="/dashboard" class="secondary-btn">Reset</a>
+    </form>
+
+    <div class="table-card" id="complaints-table">
+        <table>
+            <tr>
+                <th>Complaint ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Area</th>
+                <th>Complaint</th>
+                <th>Category</th>
+                <th>Department</th>
+                <th>Officer</th>
+                <th>Admin Remark</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Update</th>
+                <th>Date</th>
+                <th>Resolved On</th>
+                <th>Evidence</th>
+                <th>Action</th>
+            </tr>
+
+            {% for c in complaints %}
+            <tr>
+                <td>
+                    <a href="/complaint/{{ c[0] }}" class="complaint-link">
+                        CPULSE-MUM-2026-{{ "%04d"|format(c[0]) }}
+                    </a>
+                </td>
+
+                <td>{{ c[1] }}</td>
+                <td>{{ c[2] }}</td>
+                <td>{{ c[3] }}</td>
+                <td>{{ c[4] }}</td>
+                <td>{{ c[5] }}</td>
+
+                <td><span class="badge category">{{ c[6] }}</span></td>
+
+                <td class="department-cell">{{ c[11] }}</td>
+
+                <td class="officer-cell">{{ c[12] }}</td>
+
+                <td>
+                    <form method="POST" action="/update_remark" class="remark-form">
+                        <input type="hidden" name="complaint_id" value="{{ c[0] }}">
+                        <textarea name="admin_remark" rows="2">{{ c[13] }}</textarea>
+                        <button type="submit">Save</button>
+                    </form>
+                </td>
+
+                <td><span class="badge priority">{{ c[7] }}</span></td>
+                <td><span class="badge status">{{ c[8] }}</span></td>
+
+                <td>
+                    <form method="POST" action="/update_status" class="status-form">
+                        <input type="hidden" name="complaint_id" value="{{ c[0] }}">
+
+                        <select name="status">
+                            <option value="Pending" {% if c[8] == "Pending" or c[8] == "pending" %}selected{% endif %}>Pending</option>
+                            <option value="In Progress" {% if c[8] == "In Progress" %}selected{% endif %}>In Progress</option>
+                            <option value="Resolved" {% if c[8] == "Resolved" %}selected{% endif %}>Resolved</option>
+                        </select>
+
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+
+                <td class="date-cell">
+    {{ c[9].strftime('%d %b %Y, %I:%M %p') }}
+</td>
+
+<td class="date-cell">
+    {% if c[14] %}
+        {{ c[14].strftime('%d %b %Y, %I:%M %p') }}
+    {% else %}
+        Not Resolved
+    {% endif %}
+</td>
+
+                <td>
+                    {% if c[10] %}
+                        <a href="/uploads/{{ c[10] }}" target="_blank" class="complaint-link">
+                            View Evidence
+                        </a>
+                    {% else %}
+                        No File
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="/delete_complaint/{{ c[0] }}" class="delete-btn">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

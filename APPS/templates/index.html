@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CivicPulse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">CivicPulse AI</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/track">Track Complaint</a>
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+    </div>
+</nav>
+
+<section class="hero-section">
+
+    <div class="hero-content">
+        <span class="tag">AI-Powered Civic Intelligence</span>
+
+        <h1>Report Civic Issues Smarter with CivicPulse AI</h1>
+
+        <p>
+            CivicPulse AI automatically classifies public complaints such as road damage,
+            garbage, water leakage, traffic issues, and street light problems using machine learning.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#complaint-form" class="primary-btn">Submit Complaint</a>
+            <a href="/dashboard" class="secondary-btn">View Dashboard</a>
+        </div>
+    </div>
+
+    <div class="hero-card">
+    <h3>Live AI Classification</h3>
+    <p>Complaint → AI Category → Department → Officer → Tracking</p>
+
+    <div class="mini-stat">
+        <span>Model Accuracy</span>
+        <strong>90%+</strong>
+    </div>
+
+    <div class="mini-stat">
+        <span>Complaint Categories</span>
+        <strong>10+</strong>
+    </div>
+
+    <div class="mini-stat">
+        <span>Deaprtments</span>
+        <strong>6+</strong>
+    </div>
+
+    <div class="mini-stat">
+        <span>Workflow Modules</span>
+        <strong>8+</strong>
+    </div>
+
+    <div class="mini-stat">
+        <span>System Status</span>
+        <strong>Active</strong>
+    </div>
+</div>
+
+</section>
+<section class="features-section">
+
+    <h2>Why CivicPulse AI?</h2>
+
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <h3>AI Classification</h3>
+            <p>Automatically predicts complaint category using NLP and machine learning.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Database Tracking</h3>
+            <p>Stores every complaint, category, priority, status, and timestamp in MySQL.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Admin Dashboard</h3>
+            <p>Admins can monitor complaints and update their resolution status.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Real-World Workflow</h3>
+            <p>Built as an end-to-end ML web application, not just a notebook project.</p>
+        </div>
+
+    </div>
+
+</section>
+<section class="form-section" id="complaint-form">
+
+    <div class="form-card">
+        <h2>Submit a Civic Complaint</h2>
+        <p>Describe your issue below and let AI classify it instantly.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+<input type="text" name="name" placeholder="Your Name" required>
+<input type="text" name="phone" placeholder="Phone Number" required>
+<input type="email" name="email" placeholder="Email Address">
+<input type="text" name="area" placeholder="Area / Location" required>
+            <textarea name="complaint" placeholder="Example: Water leakage near my building..."></textarea>
+
+            <label class="upload-label">Upload Evidence Image/Video</label>
+<input type="file" name="evidence" accept="image/*,video/*">
+
+            <button type="submit">Predict Complaint</button>
+{% if complaint_id %}
+<div class="tracking-card" id="result">
+    <h3>Complaint Submitted Successfully</h3>
+    <p>Your Complaint ID:</p>
+    <h2>CPULSE-MUM-2026-{{ "%04d"|format(complaint_id) }}</h2>
+   <a href="/track?id={{ complaint_id }}">Track Your Complaint</a>
+</div>
+{% endif %}
+        </form>
+
+        {% if prediction %}
+        <div class="result-box">
+            <span>Predicted Category</span>
+            <h3>{{ prediction }}</h3>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="project-summary">
+    <div class="summary-left">
+        <span class="tag">Portfolio Project</span>
+        <h2>Built as an End-to-End AI Complaint Workflow</h2>
+        <p>
+            CivicPulse AI combines machine learning, complaint tracking, MySQL storage,
+            admin workflow management, and analytics into one complete civic intelligence platform.
+        </p>
+    </div>
+
+    <div class="summary-points">
+        <div>AI Classification</div>
+        <div>MySQL Tracking</div>
+        <div>Admin Workflow</div>
+        <div>Analytics Dashboard</div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 CivicPulse AI | AI-Powered Civic Complaint Management System</p>
+</footer>
+{% if complaint_id %}
+<script>
+    document.getElementById("result").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+</script>
+{% endif %}
+</body>
+</html>

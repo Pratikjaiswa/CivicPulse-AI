@@ -1,0 +1,58 @@
+-- CREATE DATABASE smart_city_ai;
+
+-- use smart_city_ai;
+
+-- create table complaints (
+-- id int auto_increment primary key,
+-- complaint_text TEXT,
+-- category varchar(100),
+-- priority_level varchar(50),
+-- created_at timestamp default current_timestamp
+-- );
+--  select *from complaints;
+-- ALTER TABLE complaints
+-- ADD COLUMN status VARCHAR(50);
+--  -- show tables;
+-- USE smart_city_ai;
+USE smart_city_ai;
+-- DESCRIBE complaints;
+-- SELECT id, complaint_text, evidence_file
+-- FROM complaints
+-- ORDER BY id DESC
+-- LIMIT 10;
+--
+--  describe complaints
+-- select evidence_file from complaints order by id desc limit 1;
+-- SELECT VERSION();
+-- SHOW TABLES;
+-- use smart_city_ai;
+-- DESCRIBE complaints;
+-- select * from complaints;
+-- SHOW PROCESSLIST;
+-- kill 20;
+-- kill 38;
+-- USE smart_city_ai;
+-- select * from complaints;
+-- ALTER TABLE complaints
+-- ADD COLUMN evidence_file VARCHAR(255);
+
+-- ALTER TABLE complaints 
+-- ADD COLUMN name VARCHAR(100) AFTER id, 
+-- ADD COLUMN phone VARCHAR(20) AFTER name, 
+-- ADD COLUMN email VARCHAR(100) AFTER phone, 
+-- ADD COLUMN area VARCHAR(150) AFTER email;
+
+--  ALTER TABLE complaints
+-- -- ADD COLUMN assigned_department VARCHAR(100),
+-- -- ADD COLUMN admin_remark TEXT;
+-- select id,category, assigned_department,admin_remark from complaints order by id desc limit 5;
+-- ALTER TABLE complaints
+-- ADD COLUMN resolution_date DATETIME;
+-- select id,status,resolution_date from complaints order by id desc limit 5;
+-- SELECT id, status, resolution_date
+-- FROM complaints
+-- ORDER BY id DESC
+-- LIMIT 10;
+-- use smart_city_ai;
+-- ALTER TABLE complaints
+-- ADD COLUMN assigned_officer VARCHAR(100);
